@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlyHi Media Group | San Antonio Real Estate Photography & Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-off: #f8f8f6;
+  --bg-dark: #111111;
+  --text: #111111;
+  --text-2: #5a5a58;
+  --text-3: #9c9a97;
+  --border: rgba(17,17,17,.08);
+  --border-med: rgba(17,17,17,.14);
+  --accent: #111111;
+  --sans: 'Inter', system-ui, sans-serif;
+  --display: 'DM Serif Display', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  transition: background .25s, border-color .25s, box-shadow .25s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(255,255,255,.93);
+  backdrop-filter: blur(18px) saturate(180%);
+  border-bottom-color: var(--border);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.nav-logo {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .02em;
+  color: #fff;
+  transition: color .25s;
+}
+nav.scrolled .nav-logo { color: var(--text); }
+
+.nav-links {
+  display: flex; gap: 2px; list-style: none;
+}
+.nav-links a {
+  display: block; padding: 8px 16px; border-radius: 999px;
+  font-size: 14px; font-weight: 500;
+  color: rgba(255,255,255,.75);
+  transition: color .2s, background .2s;
+}
+nav.scrolled .nav-links a { color: var(--text-2); }
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,.12); }
+nav.scrolled .nav-links a:hover { color: var(--text); background: var(--bg-off); }
+
+.nav-cta {
+  display: inline-flex; align-items: center;
+  padding: 9px 22px;
+  background: #fff; color: var(--text);
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  transition: background .2s, transform .15s, box-shadow .15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+nav.scrolled .nav-cta {
+  background: var(--text); color: #fff;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.18); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: #111;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-photo {
+  position: relative;
+  overflow: hidden;
+}
+.hero-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(.75);
+}
+.hero-photo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(17,17,17,.6) 0%, transparent 60%);
+}
+
+.hero-content {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 64px 80px 72px;
+  position: relative; z-index: 2;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.45);
+  margin-bottom: 24px;
+}
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(42px, 4.5vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.hero-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.65;
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+.hero-actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: #fff; color: var(--text);
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: transparent; color: rgba(255,255,255,.75);
+  border-radius: 999px;
+  font-size: 14px; font-weight: 500;
+  border: 1px solid rgba(255,255,255,.2);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.35); }
+
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 48px;
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px;
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,.6);
+}
+.badge-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,.4);
+}
+
+/* ── LOGO STRIP ── */
+.logo-strip {
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+  overflow: hidden;
+}
+.logo-strip-inner {
+  display: flex; gap: 64px;
+  animation: ticker 28s linear infinite;
+  width: max-content;
+}
+.logo-strip-inner:hover { animation-play-state: paused; }
+.strip-label {
+  text-align: center;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 0;
+  padding: 0 40px;
+  display: flex; align-items: center; justify-content: center;
+}
+.strip-logo {
+  font-size: 13px; font-weight: 600; letter-spacing: .04em;
+  color: var(--text-3);
+  white-space: nowrap;
+  display: flex; align-items: center;
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── SECTION SHARED ── */
+section { padding: 96px 40px; }
+.section-inner { max-width: 1160px; margin: 0 auto; }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 20px;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(30px, 3.5vw, 46px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.section-title em { font-style: italic; font-weight: 300; }
+.section-sub {
+  font-size: 17px; color: var(--text-2); line-height: 1.65;
+  max-width: 520px;
+}
+
+/* ── HOW IT WORKS ── */
+.how { background: var(--bg-off); }
+.how-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+  margin-top: 56px;
+}
+.how-step {
+  padding: 36px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.step-num {
+  font-family: var(--display);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+.step-title {
+  font-size: 18px; font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.step-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
+/* ── BUNDLES ── */
+.bundles-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.bundle-card {
+  border: 1px solid var(--border-med);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow .2s, transform .2s;
+  position: relative;
+}
+.bundle-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); transform: translateY(-3px); }
+.bundle-card.featured {
+  border-color: var(--text);
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+}
+.bundle-badge {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--text); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px;
+}
+.bundle-img {
+  width: 100%; height: 200px;
+  background: var(--bg-off);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--text-3);
+  overflow: hidden;
+}
+.bundle-img img { width: 100%; height: 100%; object-fit: cover; }
+.bundle-body { padding: 28px 28px 32px; }
+.bundle-name {
+  font-size: 13px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 8px;
+}
+.bundle-headline {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 400; line-height: 1.2;
+  margin-bottom: 6px;
+}
+.bundle-headline em { font-style: italic; font-weight: 300; }
+.bundle-price {
+  font-size: 28px; font-weight: 700; color: var(--text);
+  margin-bottom: 20px;
+}
+.bundle-price span { font-size: 14px; font-weight: 400; color: var(--text-3); }
+.bundle-includes { list-style: none; margin-bottom: 28px; }
+.bundle-includes li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text-2);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bundle-includes li:last-child { border-bottom: none; }
+.check {
+  width: 16px; height: 16px; flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 3px;
+}
+.check svg { width: 8px; height: 8px; stroke: #fff; fill: none; stroke-width: 2.5; }
+.bundle-cta {
+  display: block; width: 100%; text-align: center;
+  padding: 13px 0;
+  background: var(--text); color: #fff;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  transition: opacity .2s;
+}
+.bundle-cta:hover { opacity: .8; }
+.bundle-card:not(.featured) .bundle-cta {
+  background: transparent; color: var(--text);
+  border: 1.5px solid var(--border-med);
+}
+.bundle-card:not(.featured) .bundle-cta:hover { background: var(--bg-off); opacity: 1; }
+
+/* ── RELIABILITY ── */
+.reliability { background: var(--bg-off); }
+.reliability-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.rel-card {
+  padding: 32px 28px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.rel-icon {
+  width: 40px; height: 40px; margin-bottom: 20px;
+  background: var(--bg-off); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.rel-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.rel-desc { font-size: 14px; color: var(--text-2); line-height: 1.55; }
+
+/* ── TESTIMONIALS ── */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.testimonial-card {
+  padding: 32px;
+  background: var(--bg-off);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.stars { font-size: 13px; margin-bottom: 16px; color: #f59e0b; letter-spacing: .05em; }
+.testimonial-quote {
+  font-size: 15px; color: var(--text);
+  line-height: 1.65; margin-bottom: 24px;
+  font-style: italic;
+}
+.testimonial-author { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.testimonial-role { font-size: 12px; color: var(--text-3); }
+
+
+/* ── CTA DARK ── */
+.cta-dark {
+  background: var(--bg-dark);
+  color: #fff;
+  text-align: center;
+}
+.cta-dark .section-title { color: #fff; }
+.cta-dark .section-title em { color: rgba(255,255,255,.55); }
+.cta-dark .section-sub { color: rgba(255,255,255,.5); margin: 0 auto 40px; }
+.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px;
+  background: #fff; color: var(--text);
+  border-radius: 999px;
+  font-size: 15px; font-weight: 600;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+.btn-ghost-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: transparent; color: rgba(255,255,255,.7);
+  border-radius: 999px;
+  font-size: 15px; font-weight: 500;
+  border: 1px solid rgba(255,255,255,.18);
+  transition: color .2s, border-color .2s;
+}
+.btn-ghost-white:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg-off);
+  border-top: 1px solid var(--border);
+  padding: 48px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-logo { font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--text-3); transition: color .2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { font-size: 12px; color: var(--text-3); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-photo { height: 340px; }
+  .hero-content { padding: 60px 32px 60px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .bundles-grid { grid-template-columns: 1fr; }
+  .reliability-grid { grid-template-columns: 1fr 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  section { padding: 72px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">FlyHi Media Group</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Book a shoot</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding: 0;">
+  <div class="hero-photo">
+    <!-- Replace src with actual hero photo -->
+    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80" alt="San Antonio luxury listing">
+    <div class="hero-photo-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">San Antonio Real Estate Media</p>
+    <h1 class="hero-title">
+      Listings that<br>sell <em>faster</em><br>start here.
+    </h1>
+    <p class="hero-sub">Professional photography, drone, and video for San Antonio's top agents. Delivered next business day.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#services">See packages ↓</a>
+      <a class="btn-ghost" href="#contact">Talk to us</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge"><span class="badge-dot"></span>SUPRA Certified</span>
+      <span class="badge"><span class="badge-dot"></span>Next-Day Delivery</span>
+      <span class="badge"><span class="badge-dot"></span>Floor Plans Included</span>
+      <span class="badge"><span class="badge-dot"></span>Blue Skies Guarantee</span>
+    </div>
+  </div>
+</section>
+
+<!-- BROKER LOGO STRIP -->
+<div class="logo-strip">
+  <div class="logo-strip-inner">
+    <span class="strip-logo">Keller Williams</span>
+    <span class="strip-logo">RE/MAX</span>
+    <span class="strip-logo">Phyllis Browning</span>
+    <span class="strip-logo">Kuper Sotheby's</span>
+    <span class="strip-logo">Coldwell Banker</span>
+    <span class="strip-logo">Levi Rodgers Group</span>
+    <span class="strip-logo">eXp Realty</span>
+    <span class="strip-logo">JB Goodwin</span>
+    <!-- duplicate for seamless scroll -->
+    <span class="strip-logo">Keller Williams</span>
+    <span class="strip-logo">RE/MAX</span>
+    <span class="strip-logo">Phyllis Browning</span>
+    <span class="strip-logo">Kuper Sotheby's</span>
+    <span class="strip-logo">Coldwell Banker</span>
+    <span class="strip-logo">Levi Rodgers Group</span>
+    <span class="strip-logo">eXp Realty</span>
+    <span class="strip-logo">JB Goodwin</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Booking made <em>simple.</em></h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <p class="step-num">01</p>
+        <h3 class="step-title">Book online in minutes</h3>
+        <p class="step-desc">Pick your package, choose a date, and confirm. No back-and-forth, no waiting on a quote for standard listings.</p>
+      </div>
+      <div class="how-step">
+        <p class="step-num">02</p>
+        <h3 class="step-title">We show up ready</h3>
+        <p class="step-desc">Your SUPRA access gets our crew in the door. We handle everything — HDR photography, drone, floor plan, and video if you add it.</p>
+      </div>
+      <div class="how-step">
+        <p class="step-num">03</p>
+        <h3 class="step-title">Next-day delivery</h3>
+        <p class="step-desc">Edited photos delivered by the next business day via a branded gallery link. Download, share, or send straight to MLS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLES / SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-label">Services</p>
+    <h2 class="section-title">Everything your <em>listing needs,</em><br>in one place.</h2>
+    <div class="bundles-grid">
+
+      <div class="bundle-card">
+        <div class="bundle-img">
+          <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80" alt="Essential package">
+        </div>
+        <div class="bundle-body">
+          <p class="bundle-name">Essential</p>
+          <h3 class="bundle-headline">The <em>smart</em> starter</h3>
+          <p class="bundle-price">$155 <span>/ listing</span></p>
+          <ul class="bundle-includes">
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>25 HDR photos</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Branded gallery delivery</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Blue Skies Guarantee</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Next-business-day turnaround</li>
+          </ul>
+          <a class="bundle-cta" href="#contact">Book Essential</a>
+        </div>
+      </div>
+
+      <div class="bundle-card featured">
+        <span class="bundle-badge">Most Popular</span>
+        <div class="bundle-img">
+          <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=600&q=80" alt="Plus package">
+        </div>
+        <div class="bundle-body">
+          <p class="bundle-name">Plus</p>
+          <h3 class="bundle-headline">Listings that <em>move</em></h3>
+          <p class="bundle-price">$245 <span>/ listing</span></p>
+          <ul class="bundle-includes">
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>40 HDR photos</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>2D floor plan</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Drone photo add-on</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Zillow 3D Tour</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Next-business-day turnaround</li>
+          </ul>
+          <a class="bundle-cta" href="#contact">Book Plus</a>
+        </div>
+      </div>
+
+      <div class="bundle-card">
+        <div class="bundle-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Premium package">
+        </div>
+        <div class="bundle-body">
+          <p class="bundle-name">Premium</p>
+          <h3 class="bundle-headline">Listings <em>done right</em></h3>
+          <p class="bundle-price">$395 <span>/ listing</span></p>
+          <ul class="bundle-includes">
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>50+ HDR photos</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Drone photo + video</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>2D floor plan + Zillow 3D</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Listing walkthrough video</li>
+            <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Priority scheduling</li>
+          </ul>
+          <a class="bundle-cta" href="#contact">Book Premium</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RELIABILITY -->
+<section class="reliability">
+  <div class="section-inner">
+    <p class="section-label">Why FlyHi</p>
+    <h2 class="section-title">Built for <em>agents</em> who can't afford delays.</h2>
+    <div class="reliability-grid">
+      <div class="rel-card">
+        <div class="rel-icon">🔑</div>
+        <h3 class="rel-title">SUPRA Certified</h3>
+        <p class="rel-desc">We're on your keybox access list. Schedule us without coordinating a lockbox handoff every time.</p>
+      </div>
+      <div class="rel-card">
+        <div class="rel-icon">⚡</div>
+        <h3 class="rel-title">Next-Day Delivery</h3>
+        <p class="rel-desc">Photos delivered by the next business day, every time. Your listing goes live on schedule.</p>
+      </div>
+      <div class="rel-card">
+        <div class="rel-icon">📐</div>
+        <h3 class="rel-title">Floor Plans Included</h3>
+        <p class="rel-desc">Accurate 2D floor plans on Plus and Premium packages. One less vendor to coordinate.</p>
+      </div>
+      <div class="rel-card">
+        <div class="rel-icon">☀️</div>
+        <h3 class="rel-title">Blue Skies Guarantee</h3>
+        <p class="rel-desc">If it rains, we replace overcast skies with blue sky in post — at no extra cost, automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <p class="section-label">What agents say</p>
+    <h2 class="section-title">Trusted by San Antonio's <em>top producers.</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"FlyHi has been my go-to for over a year. Photos are always sharp, delivered fast, and my listings consistently get more showings than the comparable properties down the street."</p>
+        <p class="testimonial-author">Sarah M.</p>
+        <p class="testimonial-role">RE/MAX Agent, San Antonio</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"The drone shots on my last listing made all the difference. The lot and neighborhood context are huge selling points that photos alone can't communicate."</p>
+        <p class="testimonial-author">James T.</p>
+        <p class="testimonial-role">Keller Williams, Stone Oak</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"SUPRA access means I don't have to be there for every shoot. I book, they show up, and photos are in my inbox the next morning. It's exactly how it should work."</p>
+        <p class="testimonial-author">Maria L.</p>
+        <p class="testimonial-role">Phyllis Browning, North SA</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA DARK -->
+<section class="cta-dark" id="contact">
+  <div class="section-inner" style="text-align: center;">
+    <p class="section-label" style="color: rgba(255,255,255,.35);">Ready to book?</p>
+    <h2 class="section-title" style="margin: 0 auto 16px;">Your next listing deserves <em>media that sells.</em></h2>
+    <p class="section-sub" style="margin: 0 auto 40px;">Book online in minutes or reach out for property management and commercial inquiries.</p>
+    <div class="cta-actions">
+      <a class="btn-white" href="https://app.flyhimedia.com" target="_blank">Book a shoot →</a>
+      <a class="btn-ghost-white" href="mailto:hello@flyhimedia.com">hello@flyhimedia.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">FlyHi Media Group</span>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:hello@flyhimedia.com">Contact</a>
+  </div>
+  <span class="footer-copy">© 2025 FlyHi Media Group. San Antonio, TX.</span>
+</footer>
+
+<script>
+// Nav scroll behavior
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+</script>
+</body>
+</html>
