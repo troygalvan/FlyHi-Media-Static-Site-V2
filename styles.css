@@ -343,7 +343,7 @@ section { padding: 96px 40px; }
 
 /* ── TESTIMONIALS ── */
 .testimonials-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
   margin-top: 56px;
 }
 .testimonial-card {
