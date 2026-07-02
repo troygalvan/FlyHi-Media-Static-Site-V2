@@ -1,0 +1,200 @@
+/* ══════════════════════════════════════════
+   RETAINERS PAGE — page-specific styles.
+   Loads AFTER css/styles.css and only adds
+   what the main stylesheet doesn't cover.
+   File lives at: css/retainers.css
+   ══════════════════════════════════════════ */
+
+/* ── HERO (dark, single-column — no photo split) ── */
+.hero-retainer {
+  min-height: 82vh;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 140px 40px 96px;
+}
+/* subtle brand glow so the dark hero isn't a flat void */
+.hero-retainer::before {
+  content: "";
+  position: absolute;
+  top: -30%; right: -15%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(6,104,162,.16) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-retainer-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-retainer .hero-title { margin-bottom: 20px; }
+.hero-retainer .hero-sub { margin: 0 auto 40px; }
+.hero-retainer .hero-actions { justify-content: center; }
+.hero-retainer .hero-badges { justify-content: center; }
+
+/* ── WORK / REELS ── */
+/* vertical 9:16 video cards. preload="none" + poster keeps the
+   page light — nothing downloads until someone presses play. */
+.reel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+}
+.reel-item {
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-dark);
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  transition: box-shadow .25s, transform .2s;
+}
+.reel-item:hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,.16);
+  transform: translateY(-3px);
+}
+.reel-item video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── PLANS ── */
+/* tier cards reuse .bundle-card / .bundles-grid from styles.css —
+   these only handle the cards having no image block */
+.plan-card .bundle-body { padding-top: 36px; }
+/* featured card has no image, so give the "Most Popular" badge
+   room above the eyebrow text instead of letting them collide */
+.plan-card.featured .bundle-body { padding-top: 52px; }
+.plan-card .bundle-price { font-size: 24px; }
+.plan-card .bundle-price .from {
+  display: block;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+.plans-note {
+  margin-top: 28px;
+  font-size: 14px;
+  color: var(--text-3);
+  text-align: center;
+  max-width: 620px;
+  margin-left: auto; margin-right: auto;
+  line-height: 1.6;
+}
+.plans-note strong { color: var(--text-2); font-weight: 600; }
+
+/* ── FIT (who it's for / who it isn't) ── */
+.fit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 56px;
+}
+.fit-card {
+  padding: 36px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.fit-card.fit-no { background: var(--bg-off); }
+.fit-card h3 {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.fit-list { list-style: none; }
+.fit-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 15px; color: var(--text-2); line-height: 1.55;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fit-list li:last-child { border-bottom: none; }
+.fit-mark {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 3px;
+  font-size: 11px; font-weight: 700;
+}
+.fit-yes .fit-mark { background: var(--brand-soft); color: var(--brand); }
+.fit-no  .fit-mark { background: rgba(17,17,17,.07); color: var(--text-3); }
+
+/* ── APPLICATION FORM (lives inside .cta-dark) ── */
+.apply-form {
+  max-width: 560px;
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  text-align: left;
+}
+.apply-form input,
+.apply-form textarea {
+  width: 100%;
+  padding: 13px 18px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 14px;
+  transition: border-color .2s, background .2s;
+}
+.apply-form input::placeholder,
+.apply-form textarea::placeholder { color: rgba(255,255,255,.4); }
+.apply-form input:focus,
+.apply-form textarea:focus {
+  outline: none;
+  border-color: rgba(255,255,255,.45);
+  background: rgba(255,255,255,.09);
+}
+.apply-form textarea {
+  grid-column: 1 / -1;
+  min-height: 110px;
+  resize: vertical;
+}
+.apply-form .form-full { grid-column: 1 / -1; }
+.apply-form button {
+  grid-column: 1 / -1;
+  padding: 14px 32px;
+  background: #fff; color: var(--text);
+  border-radius: 999px;
+  font-size: 15px; font-weight: 600;
+  transition: transform .15s, box-shadow .15s, opacity .2s;
+}
+.apply-form button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+.apply-form button:disabled { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+.form-error {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: #fca5a5;
+  display: none;
+}
+.form-error.visible { display: block; }
+.form-success {
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  padding: 24px 0;
+}
+.cta-or {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-retainer { padding: 120px 24px 72px; }
+  .reel-grid { grid-template-columns: repeat(2, 1fr); }
+  .fit-grid { grid-template-columns: 1fr; }
+  .apply-form { grid-template-columns: 1fr; }
+}

@@ -39,7 +39,8 @@ nav {
   transition: background .25s, border-color .25s, box-shadow .25s;
   border-bottom: 1px solid transparent;
 }
-nav.scrolled {
+nav.scrolled,
+nav.menu-open {
   background: rgba(255,255,255,.93);
   backdrop-filter: blur(18px) saturate(180%);
   border-bottom-color: var(--border);
@@ -58,8 +59,10 @@ nav.scrolled {
   filter: invert(1);
   transition: filter .25s;
 }
-/* once the nav turns white on scroll, show the logo in its native colors */
-nav.scrolled .nav-logo img { filter: none; }
+/* once the nav turns white (on scroll or with the menu open),
+   show the logo in its native colors */
+nav.scrolled .nav-logo img,
+nav.menu-open .nav-logo img { filter: none; }
 
 .nav-links {
   display: flex; gap: 2px; list-style: none;
@@ -83,7 +86,8 @@ nav.scrolled .nav-links a:hover { color: var(--text); background: var(--bg-off);
   transition: background .2s, transform .15s, box-shadow .15s;
   box-shadow: 0 1px 3px rgba(0,0,0,.12);
 }
-nav.scrolled .nav-cta { background: var(--text); color: #fff; }
+nav.scrolled .nav-cta,
+nav.menu-open .nav-cta { background: var(--text); color: #fff; }
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.18); }
 
 /* ── HERO ── */
@@ -535,10 +539,369 @@ footer {
   .testimonials-grid { grid-template-columns: 1fr; }
   .gallery-grid { columns: 2; }
   nav { padding: 0 20px; }
-  .nav-links { display: none; }
   section { padding: 72px 24px; }
 }
 
 @media (max-width: 560px) {
   .gallery-grid { columns: 1; }
+}
+
+/* ── NAV: SERVICES DROPDOWN (desktop) ── */
+.has-dropdown { position: relative; }
+.has-dropdown > a {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-caret {
+  width: 12px; height: 12px;
+  stroke: currentColor;
+  transition: transform .2s;
+}
+.has-dropdown:hover .nav-caret,
+.has-dropdown:focus-within .nav-caret { transform: rotate(180deg); }
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 230px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.14);
+  /* hidden by default; hover/keyboard focus reveals it */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity .18s, transform .18s, visibility .18s;
+}
+.has-dropdown:hover .dropdown,
+.has-dropdown:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.dropdown a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-2) !important; /* dropdown card is always white, even over the dark hero */
+  transition: background .15s, color .15s;
+}
+.dropdown a:hover { background: var(--bg-off); color: var(--text) !important; }
+
+/* ── NAV: MOBILE MENU ── */
+.nav-toggle {
+  display: none; /* desktop: hidden — shown in the media query below */
+  width: 40px; height: 40px;
+  background: transparent;
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 5px;
+}
+.nav-toggle span {
+  display: block;
+  width: 20px; height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform .25s, opacity .2s, background .25s;
+}
+nav.scrolled .nav-toggle span,
+nav.menu-open .nav-toggle span { background: var(--text); }
+/* the three bars animate into an X when the menu is open */
+nav.menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .nav-toggle { display: flex; }
+
+  /* the link list becomes a white sheet that drops below the bar */
+  .nav-links {
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    flex-direction: column;
+    gap: 4px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 40px rgba(0,0,0,.12);
+    padding: 16px 20px 24px;
+    /* closed state */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity .2s, transform .2s, visibility .2s;
+  }
+  nav.menu-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  /* panel background is white, so links are always dark here */
+  .nav-links a {
+    color: var(--text-2);
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--bg-off); }
+
+  /* on mobile the dropdown isn't a popover — its links just sit
+     in the list, indented, always visible */
+  .dropdown {
+    position: static;
+    opacity: 1; visibility: visible; transform: none;
+    box-shadow: none; border: none;
+    padding: 0 0 0 16px;
+    min-width: 0;
+  }
+  .dropdown a { font-size: 15px; }
+  .nav-caret { display: none; }
+}
+
+/* ── EXPLORE CARD (3rd card in the homepage services grid) ── */
+/* inverts the bundle-card: dark, no image, service links instead
+   of an includes list — visually distinct from the two packages
+   so it reads as "the rest of the menu," not a third product */
+.explore-card {
+  background: var(--bg-dark);
+  border-color: var(--bg-dark);
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+/* same brand glow language as the dark heroes */
+.explore-card::before {
+  content: "";
+  position: absolute;
+  bottom: -35%; right: -35%;
+  width: 110%; height: 110%;
+  background: radial-gradient(circle, rgba(6,104,162,.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+.explore-card .bundle-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 36px 28px 28px;
+  position: relative;
+  z-index: 2;
+}
+.explore-card .bundle-name { color: rgba(255,255,255,.4); }
+.explore-card .bundle-headline { color: #fff; margin-bottom: 12px; }
+.explore-card .bundle-headline em { color: rgba(255,255,255,.55); }
+.explore-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.explore-links {
+  list-style: none;
+  margin-top: auto; /* pins the link list to the card's bottom */
+}
+.explore-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,.72);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  transition: color .2s, padding-left .2s;
+}
+.explore-links li:last-child a { border-bottom: none; }
+.explore-links a span {
+  color: rgba(255,255,255,.35);
+  transition: transform .2s, color .2s;
+}
+.explore-links a:hover { color: #fff; padding-left: 6px; }
+.explore-links a:hover span { transform: translateX(4px); color: #fff; }
+
+/* ── NAV DROPDOWN: hover bridge ──
+   The menu floats 8px below the trigger, and that visual gap is a
+   dead zone — the moment the cursor enters it, :hover breaks and
+   the menu closes. This invisible pseudo-element spans the gap, so
+   it counts as hovering .has-dropdown while the cursor crosses.
+   The gap stays visible; it just stops being a trapdoor. */
+.has-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 230px;   /* match the dropdown's min-width */
+  height: 12px;   /* slightly taller than the 8px gap for safety */
+}
+
+/* ── PAY-AT-CLOSE BAND (listings page) ── */
+.payclose-band {
+  margin-top: 24px;
+  padding: 36px 40px;
+  background: var(--bg-dark);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+.payclose-band::before {
+  content: "";
+  position: absolute;
+  top: -60%; right: -10%;
+  width: 55%; height: 220%;
+  background: radial-gradient(circle, rgba(6,104,162,.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+.payclose-copy { position: relative; z-index: 2; max-width: 560px; }
+.payclose-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.4);
+  margin-bottom: 8px;
+}
+.payclose-copy h3 {
+  font-family: var(--display);
+  font-size: 26px; font-weight: 400; line-height: 1.2;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.payclose-copy h3 em { font-style: italic; color: rgba(255,255,255,.6); }
+.payclose-copy p { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.6; }
+.payclose-band .btn-white { position: relative; z-index: 2; flex-shrink: 0; }
+
+/* ── ADD-ONS MENU (listings page) ── */
+.addon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 56px;
+}
+.addon-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.addon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.07);
+  border-color: var(--border-med);
+}
+.addon-card h3 {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 400;
+  margin-bottom: 14px;
+}
+.addon-list { list-style: none; }
+.addon-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  font-size: 14px; color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+}
+.addon-list li:last-child { border-bottom: none; }
+.addon-price {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.addon-note {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .addon-grid { grid-template-columns: 1fr; }
+  .payclose-band { padding: 32px 28px; }
+}
+
+/* fine print inside the pay-at-close band */
+.payclose-fine {
+  font-size: 10px;
+  color: rgba(255,255,255,.22);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ── SQ-FT TIER TABLE (pricing pages) ── */
+.tier-card {
+  background: #fff;
+  border: 1px solid var(--border-med);
+  border-radius: 20px;
+  padding: 36px 40px;
+  margin-top: 56px;
+}
+.tier-card h3 {
+  font-family: var(--display);
+  font-size: 24px; font-weight: 400;
+  margin-bottom: 8px;
+}
+.tier-card .tier-note {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  max-width: 640px;
+}
+.tier-list { list-style: none; }
+.tier-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--text-2);
+}
+.tier-list li:last-child { border-bottom: none; }
+.tier-price {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+  white-space: nowrap;
+}
+/* tighten the gap when the add-on grid follows the tier table */
+.tier-card + .addon-grid { margin-top: 24px; }
+
+@media (max-width: 900px) {
+  .tier-card { padding: 28px 24px; }
+}
+
+/* "Most listings" tag inside the tier table */
+.tier-range { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tier-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* two tier tables side by side (MLS + Zillow Showcase) */
+.tier-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 56px;
+}
+.tier-grid .tier-card { margin-top: 0; }
+.tier-grid + .addon-grid { margin-top: 24px; }
+@media (max-width: 900px) {
+  .tier-grid { grid-template-columns: 1fr; }
 }

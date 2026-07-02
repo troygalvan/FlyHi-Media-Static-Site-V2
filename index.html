@@ -130,8 +130,22 @@
 <!-- NAV -->
 <nav id="nav">
   <a class="nav-logo" href="#"><img src="images/logo.png" alt="FlyHi Media Group"></a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li class="has-dropdown">
+      <a href="#services">Services
+        <svg class="nav-caret" viewBox="0 0 12 12" fill="none" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
+      </a>
+      <ul class="dropdown">
+        <li><a href="listings.html">Listings &amp; MLS</a></li>
+        <li><a href="short-term-rentals.html">Short-Term Rentals</a></li>
+        <li><a href="commercial.html">Commercial</a></li>
+        <li><a href="builders.html">New Construction</a></li>
+        <li><a href="retainers.html">Video Retainers</a></li>
+      </ul>
+    </li>
     <li><a href="#how">How it works</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -256,7 +270,7 @@
         <div class="bundle-body">
           <p class="bundle-name">Listings that stand out</p>
           <h3 class="bundle-headline">MLS Photography</h3>
-          <p class="bundle-price">Starting at $195 <span>/ listing</span></p>
+          <p class="bundle-price">$195 <span>/ most listings</span></p>
           <ul class="bundle-includes">
             <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Magazine-style photography</li>
             <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>2D floor plan</li>
@@ -276,7 +290,7 @@
         <div class="bundle-body">
           <p class="bundle-name">The <em>complete</em> listing package</p>
           <h3 class="bundle-headline">Zillow Showcase</h3>
-          <p class="bundle-price">Starting at $375 <span>/ listing</span></p>
+          <p class="bundle-price">$375 <span>/ most listings</span></p>
           <ul class="bundle-includes">
             <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Magazine-style photography</li>
             <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Zillow 3D Tour</li>
@@ -285,6 +299,21 @@
             <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>Next-day turnaround</li>
           </ul>
           <a class="bundle-cta" href="#contact">Book a shoot</a>
+        </div>
+      </div>
+
+      <div class="bundle-card explore-card">
+        <div class="bundle-body">
+          <p class="bundle-name">Beyond listings</p>
+          <h3 class="bundle-headline">Every property.<br><em>Every format.</em></h3>
+          <p class="explore-sub">Listings are the start, not the whole story. We shoot for hosts, owners, builders, and brands across San Antonio.</p>
+          <ul class="explore-links">
+            <li><a href="listings.html">Listings &amp; MLS <span>→</span></a></li>
+            <li><a href="short-term-rentals.html">Short-Term Rentals <span>→</span></a></li>
+            <li><a href="commercial.html">Commercial <span>→</span></a></li>
+            <li><a href="builders.html">Builders &amp; Contractors <span>→</span></a></li>
+            <li><a href="retainers.html">Video Retainers <span>→</span></a></li>
+          </ul>
         </div>
       </div>
 
