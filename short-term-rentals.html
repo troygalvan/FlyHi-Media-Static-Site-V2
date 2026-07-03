@@ -6,6 +6,49 @@
 
 <title>Airbnb &amp; Short-Term Rental Photography in San Antonio | FlyHi Media Group</title>
 <meta name="description" content="Professional short-term rental photography in San Antonio and the Hill Country. Amenity-first shot lists, twilight options, and next-day delivery for Airbnb and VRBO hosts.">
+<link rel="canonical" href="https://flyhimedia.com/short-term-rentals">
+
+<!-- Open Graph (rich previews when shared to iMessage, Slack, FB, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FlyHi Media Group">
+<meta property="og:title" content="Airbnb & Short-Term Rental Photography in San Antonio | FlyHi Media Group">
+<meta property="og:description" content="Professional short-term rental photography in San Antonio and the Hill Country. Amenity-first shot lists, twilight options, and next-day delivery for Airbnb and VRBO hosts.">
+<meta property="og:url" content="https://flyhimedia.com/short-term-rentals">
+<meta property="og:image" content="https://flyhimedia.com/images/short-term-rentals-bg.jpg">
+<meta property="og:image:alt" content="Short-term rental photography for Airbnb and VRBO hosts in San Antonio">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Airbnb & Short-Term Rental Photography in San Antonio | FlyHi Media Group">
+<meta name="twitter:description" content="Professional short-term rental photography in San Antonio and the Hill Country. Amenity-first shot lists, twilight options, and next-day delivery for Airbnb and VRBO hosts.">
+<meta name="twitter:image" content="https://flyhimedia.com/images/short-term-rentals-bg.jpg">
+
+<!-- Structured data: this page's service + breadcrumb trail.
+     provider points at the #business node defined on the homepage. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Short-Term Rental Photography",
+      "serviceType": "Vacation rental photography",
+      "url": "https://flyhimedia.com/short-term-rentals",
+      "description": "Professional short-term rental photography in San Antonio and the Hill Country. Amenity-first shot lists, twilight options, and next-day delivery for Airbnb and VRBO hosts.",
+      
+      "provider": { "@id": "https://flyhimedia.com/#business" },
+      "areaServed": { "@type": "City", "name": "San Antonio" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://flyhimedia.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Short-Term Rentals", "item": "https://flyhimedia.com/short-term-rentals" }
+      ]
+    }
+  ]
+}
+</script>
 
 
 <!-- Fonts -->
@@ -18,25 +61,25 @@
 
 <!-- NAV — identical across every page; edit everywhere at once -->
 <nav id="nav">
-  <a class="nav-logo" href="index.html"><img src="images/logo.png" alt="FlyHi Media Group"></a>
+  <a class="nav-logo" href="/"><img src="images/logo.png" alt="FlyHi Media Group"></a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="nav-links">
     <li class="has-dropdown">
-      <a href="index.html#services">Services
+      <a href="/#services">Services
         <svg class="nav-caret" viewBox="0 0 12 12" fill="none" stroke-width="1.5" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
       </a>
       <ul class="dropdown">
-        <li><a href="listings.html">Listings &amp; MLS</a></li>
-        <li><a href="short-term-rentals.html">Short-Term Rentals</a></li>
-        <li><a href="commercial.html">Commercial</a></li>
-        <li><a href="builders.html">New Construction</a></li>
-        <li><a href="retainers.html">Video Retainers</a></li>
+        <li><a href="/listings">Listings &amp; MLS</a></li>
+        <li><a href="/short-term-rentals">Short-Term Rentals</a></li>
+        <li><a href="/commercial">Commercial</a></li>
+        <li><a href="/builders">Builders &amp; Contractors</a></li>
+        <li><a href="/retainers">Video Retainers</a></li>
       </ul>
     </li>
-    <li><a href="index.html#how">How it works</a></li>
-    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="/#how">How it works</a></li>
+    <li><a href="/#contact">Contact</a></li>
   </ul>
   <a class="nav-cta" href="#contact">Book a shoot</a>
 </nav>
@@ -208,7 +251,7 @@
 </section>
 
 <!-- CTA DARK -->
-<section class="cta-dark" id="contact">
+<section class="cta-dark cta-photo" id="contact" style="--cta-img:url('images/cta/cta-living.jpg')">
   <div class="section-inner" style="text-align: center;">
     <p class="section-label" style="color: rgba(255,255,255,.35);">Ready to book?</p>
     <h2 class="section-title" style="margin: 0 auto 16px;">Your next guest is <em>scrolling right now.</em></h2>
@@ -231,11 +274,14 @@
 <footer>
   <span class="footer-logo"><img src="images/logo.png" alt="FlyHi Media Group"></span>
   <div class="footer-links">
-    <a href="index.html#services">Services</a>
-    <a href="index.html#how">How it works</a>
-    <a href="index.html#contact">Contact</a>
+    <a href="/listings">Listings &amp; MLS</a>
+    <a href="/short-term-rentals">Short-Term Rentals</a>
+    <a href="/commercial">Commercial</a>
+    <a href="/builders">Builders &amp; Contractors</a>
+    <a href="/retainers">Video Retainers</a>
+    <a href="/#contact">Contact</a>
   </div>
-  <span class="footer-copy">© 2025 FlyHi Media Group. San Antonio, TX.</span>
+  <span class="footer-copy">© 2026 FlyHi Media Group. San Antonio, TX.</span>
 </footer>
 
 <script src="js/main.js"></script>

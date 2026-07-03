@@ -309,7 +309,9 @@ section { padding: 96px 40px; }
 }
 .bundle-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); transform: translateY(-3px); }
 .bundle-card.featured {
-  border-color: var(--text 66%);
+  /* var(--text 66%) was invalid CSS — the browser dropped the whole line.
+     color-mix gives us "the text color at 66% opacity" the standards way. */
+  border-color: color-mix(in srgb, var(--text) 66%, transparent);
   box-shadow: 0 4px 20px rgba(0,0,0,.12);
 }
 .bundle-badge {
@@ -905,3 +907,19 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 @media (max-width: 900px) {
   .tier-grid { grid-template-columns: 1fr; }
 }
+
+/* ── CTA PHOTO BACKDROP ──
+   Real-photo backdrop behind any .cta-dark section.
+   Usage: <section class="cta-dark cta-photo" style="--cta-img:url('images/cta/x.jpg')">
+   The gradient sits ON TOP of the photo — the two alpha values below are
+   the "how visible is the photo" knob. .72/.84 = clearly visible photo,
+   still enough darkness for white text. Raise toward .90 for subtler,
+   lower toward .60 for bolder (watch text contrast below ~.65). */
+.cta-dark.cta-photo {
+  background-image:
+    linear-gradient(rgba(17,17,17,.72), rgba(17,17,17,.84)),
+    var(--cta-img);
+  background-size: cover;
+  background-position: center;
+}
+
