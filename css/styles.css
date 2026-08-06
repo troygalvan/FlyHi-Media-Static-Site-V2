@@ -26,7 +26,37 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-img { display: block; max-width: 100%; }
+
+/* ── HORIZONTAL OVERFLOW GUARD ──
+   Several things on this site overflow their parent ON PURPOSE and rely
+   on that parent's `overflow: hidden` to clip them: the two infinite
+   tickers (whose tracks are ~3300px wide), and the radial-glow
+   pseudo-elements on the dark heroes (positioned at negative offsets).
+   Blink honors that clip exactly. WebKit is less reliable about it and
+   can still count the overflow toward the page's scrollable width —
+   which is the phantom sideways scroll on mobile.
+
+   Clamping at the root stops that at the source, whatever leaked.
+   `clip` is the right modern tool — unlike `hidden` it does NOT turn the
+   element into a scroll container, so it can't break `scroll-behavior:
+   smooth` or a future position: sticky. Old browsers ignore `clip` and
+   fall through to `hidden` on body; because <html> is still `visible`
+   there, body's value propagates up to the viewport and kills the
+   sideways scroll anyway. Both paths land in the same place. */
+html { overflow-x: clip; }
+body {
+  max-width: 100%;
+  overflow-x: hidden; /* fallback for browsers without `clip` */
+  overflow-x: clip;
+}
+/* height:auto is required now that the gallery <img> tags carry real
+   width/height attributes. Those attributes let the browser reserve the
+   correct space before the photo downloads (no more page jumping as you
+   scroll), but without height:auto the attribute height would be treated
+   as literal and squash the image once max-width kicks in. Anything
+   CSS-sized — hero, cards, avatars, logos — sets its own height on a
+   class selector, which outranks this and is unaffected. */
+img { display: block; max-width: 100%; height: auto; }
 a { text-decoration: none; color: inherit; }
 button { font-family: inherit; cursor: pointer; border: none; }
 
@@ -183,7 +213,10 @@ nav.menu-open .nav-cta { background: var(--text); color: #fff; }
 .logo-strip {
   border-bottom: 1px solid var(--border);
   padding: 28px 0;
+  /* the track inside is ~3300px wide by design — this is what clips it.
+     `clip` re-declared after `hidden` so WebKit clips it reliably. */
   overflow: hidden;
+  overflow: clip;
 }
 .logo-strip-track {
   display: flex;
@@ -513,22 +546,67 @@ section { padding: 96px 40px; }
 .btn-ghost-white:hover { color: #fff; border-color: rgba(255,255,255,.4); }
 
 /* ── FOOTER ── */
+/* Two rows: logo + social icons on top, page links + copyright below.
+   One flex row stopped scaling once the link list grew past a few items. */
 footer {
   background: var(--bg-off);
   border-top: 1px solid var(--border);
-  padding: 48px 40px;
+  padding: 44px 40px 40px;
+}
+.footer-top, .footer-bottom {
+  max-width: 1160px; margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 24px;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-top {
+  padding-bottom: 28px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
 }
 .footer-logo { display: flex; align-items: center; }
 .footer-logo img {
   height: 28px; width: auto;
   /* light footer background — logo shows in its native colors, no filter */
 }
-.footer-links { display: flex; gap: 24px; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-med);
+  border-radius: 50%;
+  color: var(--text-2);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.footer-social a:hover { background: var(--text); border-color: var(--text); color: #fff; }
+.footer-social svg { width: 17px; height: 17px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
 .footer-links a { font-size: 13px; color: var(--text-3); transition: color .2s; }
 .footer-links a:hover { color: var(--text); }
 .footer-copy { font-size: 12px; color: var(--text-3); }
+
+@media (max-width: 900px) {
+  footer { padding: 36px 24px; }
+  /* 38px circles are under the 44px minimum touch target — fine with a
+     mouse, fiddly with a thumb. Visual weight barely changes. */
+  .footer-social { gap: 12px; }
+  .footer-social a { width: 44px; height: 44px; }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .footer-links {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+  .footer-links a {
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-links a:last-child { border-bottom: none; }
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
@@ -995,7 +1073,121 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .contact-link:hover { background: var(--bg-off); }
 
+/* full-width card — used for the "everything else" catch-all so an odd
+   card count still fills the grid (3 rows of 2, then one wide) */
+.contact-card.wide { grid-column: 1 / -1; }
+
 @media (max-width: 900px) {
   .hero-contact { padding: 130px 24px 64px; }
   .contact-grid { grid-template-columns: 1fr; }
+}
+
+/* ── HERO SOLID (dark, single-column — no photo split) ──
+   Same pattern as the retainers hero, generalized so any page
+   without a dedicated hero photo can use it. Swap to the split
+   photo hero later by copying the .hero markup from commercial. */
+.hero-solid {
+  min-height: 82vh;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 140px 40px 96px;
+}
+.hero-solid::before {
+  content: "";
+  position: absolute;
+  top: -30%; right: -15%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(6,104,162,.16) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-solid-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-solid .hero-title { margin-bottom: 20px; }
+.hero-solid .hero-sub { margin: 0 auto 40px; }
+.hero-solid .hero-actions { justify-content: center; }
+.hero-solid .hero-badges { justify-content: center; }
+@media (max-width: 900px) {
+  .hero-solid { padding: 120px 24px 72px; }
+}
+
+/* ── HEADSHOTS BAND (homepage) ──
+   Copy on the left, two service cards on the right. Reuses the
+   .how-step card styling so it stays in the family. */
+.headshots-home { background: var(--bg-off); }
+.headshot-split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.headshot-split .section-sub { margin-bottom: 32px; }
+.headshot-cards { display: grid; gap: 15px; }
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px;
+  background: var(--text); color: #fff;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+@media (max-width: 900px) {
+  .headshot-split { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── FACE STRIP (headshots page) ──
+   Same infinite-ticker mechanics as the homepage broker logo strip:
+   four IDENTICAL .face-strip-group blocks, track animates -50%.
+   Same rule as the logos — every new face must be added to ALL FOUR
+   groups or the loop visibly jumps. Reuses @keyframes ticker. */
+.face-strip {
+  margin-top: 56px;
+  overflow: hidden;
+  overflow: clip; /* same reason as .logo-strip — reliable WebKit clip */
+  /* full-bleed: pull out of the section's 40px side padding */
+  margin-left: -40px; margin-right: -40px;
+  /* fade the edges so faces slide in/out instead of hard-clipping */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.face-strip-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 44s linear infinite;
+}
+.face-strip-track:hover { animation-play-state: paused; }
+.face-strip-group {
+  display: flex; align-items: center;
+  gap: 28px;
+  padding-right: 28px; /* keep gap between groups consistent w/ inner gap */
+  flex-shrink: 0;
+}
+.face-img {
+  width: 132px; height: 132px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-med);
+  box-shadow: 0 4px 16px rgba(0,0,0,.10);
+  flex-shrink: 0;
+  transition: transform .25s, box-shadow .25s;
+}
+.face-img:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+}
+@media (prefers-reduced-motion: reduce) {
+  .face-strip-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+}
+@media (max-width: 900px) {
+  .face-strip { margin-left: -24px; margin-right: -24px; }
+  .face-img { width: 100px; height: 100px; }
+  .face-strip-group { gap: 18px; padding-right: 18px; }
 }

@@ -56,6 +56,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+
+<!-- ── ANALYTICS: Google Analytics 4 ──
+     Portable: this is a plain script tag we own, so it keeps working
+     unchanged when the site moves off Vercel onto our own server. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V4DD7P60XT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-V4DD7P60XT');
+</script>
+
 </head>
 <body>
 
@@ -76,6 +88,7 @@
         <li><a href="/commercial">Commercial</a></li>
         <li><a href="/builders">Builders &amp; Contractors</a></li>
         <li><a href="/retainers">Video Retainers</a></li>
+        <li><a href="/headshots">Headshots</a></li>
       </ul>
     </li>
     <li><a href="/#how">How it works</a></li>
@@ -196,16 +209,16 @@
     <p class="section-label">Commercial work</p>
     <h2 class="section-title">Assets we've shot across <em>San Antonio.</em></h2>
     <div class="gallery-grid">
-      <a class="gallery-item" href="images/commercial/com-01.jpg" target="_blank"><img src="images/commercial/com-01.jpg" alt="Commercial interior at 1002 N Flores St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-02.jpg" target="_blank"><img src="images/commercial/com-02.jpg" alt="Office space at 1002 N Flores St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-03.jpg" target="_blank"><img src="images/commercial/com-03.jpg" alt="Commercial interior detail at 1002 N Flores St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-04.jpg" target="_blank"><img src="images/commercial/com-04.jpg" alt="Commercial property at 1002 N Flores St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-05.jpg" target="_blank"><img src="images/commercial/com-05.jpg" alt="Commercial space at 1002 N Flores St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-06.jpg" target="_blank"><img src="images/commercial/com-06.jpg" alt="Commercial property at 2418 S Presa St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-07.jpg" target="_blank"><img src="images/commercial/com-07.jpg" alt="Aerial view of 2418 S Presa St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-08.jpg" target="_blank"><img src="images/commercial/com-08.jpg" alt="Commercial exterior at 2418 S Presa St, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-09.jpg" target="_blank"><img src="images/commercial/com-09.jpg" alt="Aerial view of commercial property at 738 W Harlan Ave, San Antonio" loading="lazy"></a>
-      <a class="gallery-item" href="images/commercial/com-10.jpg" target="_blank"><img src="images/commercial/com-10.jpg" alt="Aerial view of the commercial building at 801 N Main Ave, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-01.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-01.jpg" alt="Commercial interior at 1002 N Flores St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-02.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-02.jpg" alt="Office space at 1002 N Flores St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-03.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-03.jpg" alt="Commercial interior detail at 1002 N Flores St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-04.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-04.jpg" alt="Commercial property at 1002 N Flores St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-05.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-05.jpg" alt="Commercial space at 1002 N Flores St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-06.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-06.jpg" alt="Commercial property at 2418 S Presa St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-07.jpg" target="_blank"><img width="1600" height="1198" src="images/commercial/com-07.jpg" alt="Aerial view of 2418 S Presa St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-08.jpg" target="_blank"><img width="1600" height="1067" src="images/commercial/com-08.jpg" alt="Commercial exterior at 2418 S Presa St, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-09.jpg" target="_blank"><img width="1600" height="1198" src="images/commercial/com-09.jpg" alt="Aerial view of commercial property at 738 W Harlan Ave, San Antonio" loading="lazy"></a>
+      <a class="gallery-item" href="images/commercial/com-10.jpg" target="_blank"><img width="1600" height="1198" src="images/commercial/com-10.jpg" alt="Aerial view of the commercial building at 801 N Main Ave, San Antonio" loading="lazy"></a>
     </div>
   </div>
 </section>
@@ -246,17 +259,44 @@
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-logo"><img src="images/logo.png" alt="FlyHi Media Group"></span>
-  <div class="footer-links">
-    <a href="/listings">Listings &amp; MLS</a>
-    <a href="/short-term-rentals">Short-Term Rentals</a>
-    <a href="/commercial">Commercial</a>
-    <a href="/builders">Builders &amp; Contractors</a>
-    <a href="/retainers">Video Retainers</a>
-    <a href="/contact">Contact</a>
+  <div class="footer-top">
+    <span class="footer-logo"><img src="images/logo.png" alt="FlyHi Media Group"></span>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/flyhimediagroup" target="_blank" rel="noopener" aria-label="FlyHi Media Group on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/people/FlyHi-Media-Group/100088991917706/" target="_blank" rel="noopener" aria-label="FlyHi Media Group on Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.52l.38-2.93H13.5V8.7c0-.85.24-1.43 1.45-1.43h1.55V4.65c-.27-.04-1.19-.12-2.26-.12-2.24 0-3.77 1.37-3.77 3.88v2.16H7.94v2.93h2.53V21h3.03z"/></svg>
+      </a>
+      <!-- YOUTUBE: paste the channel URL and uncomment — left out until
+           the real URL is confirmed so we never ship a dead/wrong link:
+      <a href="YOUR_YOUTUBE_URL" target="_blank" rel="noopener" aria-label="FlyHi Media Group on YouTube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+      -->
+    </div>
   </div>
-  <span class="footer-copy">© 2026 FlyHi Media Group. San Antonio, TX.</span>
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <a href="/listings">Listings &amp; MLS</a>
+      <a href="/short-term-rentals">Short-Term Rentals</a>
+      <a href="/commercial">Commercial</a>
+      <a href="/builders">Builders &amp; Contractors</a>
+      <a href="/retainers">Video Retainers</a>
+      <a href="/headshots">Headshots</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <span class="footer-copy">© 2026 FlyHi Media Group. San Antonio, TX.</span>
+  </div>
 </footer>
+
+<!-- ── ANALYTICS: Vercel Web Analytics ──
+     First-party script served from our own domain, so ad blockers that
+     kill GA4 usually let this through. Gives a truer raw headcount to
+     sanity-check GA4 against. Delete this block after the server move —
+     the /_vercel/insights route only exists on Vercel. -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 
 <script src="js/main.js"></script>
 </body>

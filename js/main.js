@@ -28,3 +28,60 @@ navLinks.addEventListener('click', (e) => {
     navToggle.setAttribute('aria-expanded', 'false');
   }
 });
+
+// ── CONVERSION TRACKING ──
+// Pageviews tell you who showed up. These tell you who actually reached
+// for the phone. Every CTA on this site ends in a tel:, a mailto:, or an
+// outbound link to Spiro — so those three are the real conversions.
+//
+// One listener on `document` catches all of them. That's event delegation:
+// instead of wiring up ~40 individual links across 8 pages (and having to
+// remember to wire up every new one), we let the click bubble up to the
+// document and inspect it there. Links added later are covered for free.
+document.addEventListener('click', (e) => {
+  // Most CTAs wrap an inline <svg> icon, so e.target is often the <svg> or
+  // even a <path> inside it — not the <a>. closest() walks UP the tree from
+  // whatever got clicked to find the nearest ancestor <a>. Without it, every
+  // tap that landed on an icon would be silently missed.
+  const link = e.target.closest('a[href]');
+  if (!link) return;
+
+  const href = link.getAttribute('href') || '';
+  let name = null;
+  let params = {};
+
+  if (href.startsWith('tel:')) {
+    name = 'phone_click';
+  } else if (href.startsWith('mailto:')) {
+    name = 'email_click';
+  } else if (href.includes('portal.spiro.media')) {
+    name = 'booking_click';
+  }
+
+  if (!name) return;
+
+  params = {
+    // Which page drove it — this is how you find out whether /commercial
+    // converts better than /builders.
+    page_path: window.location.pathname,
+    // Where on the page — nav, hero, or the bottom CTA block. Tells you
+    // whether people decide immediately or need the full pitch first.
+    link_location: sectionOf(link),
+    link_url: link.href
+  };
+
+  // gtag may not exist yet (script still loading, or blocked by an ad
+  // blocker). Guarding means a failed analytics load can never break a
+  // real phone call.
+  if (typeof gtag === 'function') gtag('event', name, params);
+});
+
+// Walks up from a link to find the nearest <section>, <nav> or <footer>
+// and returns something readable for the GA4 report.
+function sectionOf(el) {
+  const host = el.closest('nav, footer, section');
+  if (!host) return 'unknown';
+  if (host.tagName === 'NAV') return 'nav';
+  if (host.tagName === 'FOOTER') return 'footer';
+  return host.id || host.className.split(' ')[0] || 'section';
+}
