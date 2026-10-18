@@ -85,3 +85,77 @@ function sectionOf(el) {
   if (host.tagName === 'FOOTER') return 'footer';
   return host.id || host.className.split(' ')[0] || 'section';
 }
+
+// ── Gallery carousels ──
+// Each .gallery-grid[data-rows] is split into that many rows. A row's
+// photos are repeated until they cover the screen plus one extra set,
+// then the track slides left by exactly one set and loops, so the seam
+// never shows. Every row moves at the same pixels-per-second, so rows
+// with more photos just take longer to loop.
+const DRIFT_SPEED = 18; // px per second
+
+document.querySelectorAll('.gallery-grid[data-rows]').forEach((grid) => {
+  const items = [...grid.children];
+  const rowCount = Number(grid.dataset.rows);
+  const base = Math.floor(items.length / rowCount);
+  const extra = items.length % rowCount; // first rows take one more
+
+  grid.classList.add('is-carousel');
+  const rows = [];
+  let i = 0;
+  for (let r = 0; r < rowCount; r++) {
+    const size = base + (r < extra ? 1 : 0);
+    const row = document.createElement('div');
+    row.className = 'gallery-row';
+    const track = document.createElement('div');
+    track.className = 'gallery-track';
+    track.append(...items.slice(i, i + size));
+    i += size;
+    row.append(track);
+    grid.append(row);
+    rows.push({ row, track, originals: [...track.children] });
+  }
+
+  function layout() {
+    rows.forEach(({ row, track, originals }) => {
+      // drop old clones, keep the real photos
+      track.querySelectorAll('[data-clone]').forEach((c) => c.remove());
+
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      const setWidth = originals.length * (originals[0].offsetWidth + gap);
+      const rowWidth = row.clientWidth;
+      // where the content column starts inside the full-bleed row
+      const contentLeft = grid.getBoundingClientRect().left - row.getBoundingClientRect().left;
+
+      // enough copies to cover the row through a full loop
+      const copies = Math.ceil(rowWidth / setWidth) + 2;
+      for (let c = 1; c < copies; c++) {
+        originals.forEach((item) => {
+          const clone = item.cloneNode(true);
+          clone.dataset.clone = '';
+          clone.setAttribute('aria-hidden', 'true');
+          clone.tabIndex = -1;
+          track.append(clone);
+        });
+      }
+
+      // start with a real photo lined up on the content edge
+      const from = (contentLeft % setWidth) - setWidth;
+      track.style.setProperty('--from', `${from}px`);
+      track.style.setProperty('--to', `${from - setWidth}px`);
+      track.style.setProperty('--dur', `${setWidth / DRIFT_SPEED}s`);
+    });
+  }
+
+  layout();
+  // Only re-layout when the width changes. Phones fire resize when the
+  // address bar shows/hides on scroll, which would restart the drift.
+  let lastWidth = window.innerWidth;
+  let resizeFrame;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(layout);
+  });
+});

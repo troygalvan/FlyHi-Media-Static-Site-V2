@@ -521,6 +521,46 @@ section { padding: 96px 40px; }
 .gallery-item:hover { box-shadow: 0 12px 32px rgba(0,0,0,.16); }
 .gallery-item:hover img { transform: scale(1.05); }
 
+/* ── GALLERY CAROUSEL ──
+   main.js splits a .gallery-grid[data-rows] into rows, repeats each
+   row's photos past both page edges, and sets --from/--to/--dur so the
+   row loops left forever. Without JS the plain grid above still shows. */
+.gallery-grid.is-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* tile = one column of the 3-up grid at the current content width */
+  --tile: calc((min(100vw - 80px, 1160px) - 32px) / 3);
+}
+.gallery-row {
+  width: 100vw;
+  margin: -8px 0 -8px calc(50% - 50vw);
+  padding: 8px 0; /* room for the hover shadow, cancelled by the margin */
+  overflow: hidden;
+}
+.gallery-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  transform: translateX(var(--from, 0));
+  animation: gallery-drift var(--dur, 80s) linear infinite;
+}
+.gallery-row:hover .gallery-track { animation-play-state: paused; }
+.gallery-track .gallery-item { flex: 0 0 var(--tile); }
+@keyframes gallery-drift {
+  from { transform: translateX(var(--from, 0)); }
+  to   { transform: translateX(var(--to, 0)); }
+}
+@media (max-width: 900px) {
+  .gallery-grid.is-carousel { --tile: calc((100vw - 64px) / 2); }
+}
+@media (max-width: 560px) {
+  .gallery-grid.is-carousel { --tile: 78vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-track { animation: none; }
+}
+
 /* ── CTA DARK ── */
 .cta-dark {
   background: var(--bg-dark);
