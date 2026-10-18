@@ -818,44 +818,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
   height: 12px;   /* slightly taller than the 8px gap for safety */
 }
 
-/* ── PAY-AT-CLOSE BAND (listings page) ── */
-.payclose-band {
-  margin-top: 24px;
-  padding: 36px 40px;
-  background: var(--bg-dark);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  position: relative;
-  overflow: hidden;
-}
-.payclose-band::before {
-  content: "";
-  position: absolute;
-  top: -60%; right: -10%;
-  width: 55%; height: 220%;
-  background: radial-gradient(circle, rgba(6,104,162,.25) 0%, transparent 65%);
-  pointer-events: none;
-}
-.payclose-copy { position: relative; z-index: 2; max-width: 560px; }
-.payclose-label {
-  font-size: 11px; font-weight: 600; letter-spacing: .14em;
-  text-transform: uppercase; color: rgba(255,255,255,.4);
-  margin-bottom: 8px;
-}
-.payclose-copy h3 {
-  font-family: var(--display);
-  font-size: 26px; font-weight: 700; letter-spacing: -.025em; line-height: 1.2;
-  color: #fff;
-  margin-bottom: 8px;
-}
-.payclose-copy h3 em { font-style: normal; color: var(--brand-light); }
-.payclose-copy p { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.6; }
-.payclose-band .btn-white { position: relative; z-index: 2; flex-shrink: 0; }
-
 /* ── ADD-ONS MENU (listings page) ── */
 .addon-grid {
   display: grid;
@@ -905,15 +867,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 
 @media (max-width: 900px) {
   .addon-grid { grid-template-columns: 1fr; }
-  .payclose-band { padding: 32px 28px; }
-}
-
-/* fine print inside the pay-at-close band */
-.payclose-fine {
-  font-size: 10px;
-  color: rgba(255,255,255,.22);
-  margin-top: 10px;
-  line-height: 1.5;
 }
 
 /* ── SQ-FT TIER TABLE (pricing pages) ── */
