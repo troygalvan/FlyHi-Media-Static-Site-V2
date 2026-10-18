@@ -12,7 +12,8 @@
   --brand: #0668A2;
   --brand-soft: rgba(6,104,162,.10);
   --sans: 'Inter', system-ui, sans-serif;
-  --display: 'DM Serif Display', Georgia, serif;
+  --brand-light: #5aaae6;
+  --display: 'Geist', 'Inter', system-ui, sans-serif;
 }
 
 /* ── RESET ── */
@@ -157,12 +158,13 @@ nav.menu-open .nav-cta { background: var(--text); color: #fff; }
 .hero-title {
   font-family: var(--display);
   font-size: clamp(42px, 4.5vw, 64px);
-  font-weight: 400;
-  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  line-height: 1.05;
   color: #fff;
   margin-bottom: 24px;
 }
-.hero-title em { font-style: italic; font-weight: 300; }
+.hero-title em { font-style: normal; color: var(--brand-light); }
 .hero-sub {
   font-size: 17px;
   color: rgba(255,255,255,.6);
@@ -258,12 +260,13 @@ section { padding: 96px 40px; }
 .section-title {
   font-family: var(--display);
   font-size: clamp(30px, 3.5vw, 46px);
-  font-weight: 400;
-  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.1;
   color: var(--text);
   margin-bottom: 16px;
 }
-.section-title em { font-style: italic; font-weight: 300; }
+.section-title em { font-style: normal; color: var(--brand); }
 .section-sub {
   font-size: 17px; color: var(--text-2); line-height: 1.65;
   max-width: 520px;
@@ -295,7 +298,7 @@ section { padding: 96px 40px; }
 }
 .step-num {
   font-family: var(--display);
-  font-size: 42px; font-weight: 400;
+  font-size: 42px; font-weight: 700; letter-spacing: -.03em;
   color: var(--border-med);
   line-height: 1;
   transition: color .2s;
@@ -370,10 +373,10 @@ section { padding: 96px 40px; }
 }
 .bundle-headline {
   font-family: var(--display);
-  font-size: 34px; font-weight: 400; line-height: 1.2;
+  font-size: 34px; font-weight: 700; letter-spacing: -.03em; line-height: 1.15;
   margin-bottom: 6px;
 }
-.bundle-headline em { font-style: italic; font-weight: 300; }
+.bundle-headline em { font-style: normal; color: var(--brand); }
 .bundle-price {
   font-size: 28px; font-weight: 700; color: var(--text);
   margin-bottom: 20px;
@@ -522,7 +525,7 @@ section { padding: 96px 40px; }
   text-align: center;
 }
 .cta-dark .section-title { color: #fff; }
-.cta-dark .section-title em { color: rgba(255,255,255,.55); }
+.cta-dark .section-title em { color: var(--brand-light); }
 .cta-dark .section-sub { color: rgba(255,255,255,.5); margin: 0 auto 40px; }
 .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .btn-white {
@@ -770,7 +773,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .explore-card .bundle-name { color: rgba(255,255,255,.4); }
 .explore-card .bundle-headline { color: #fff; margin-bottom: 12px; }
-.explore-card .bundle-headline em { color: rgba(255,255,255,.55); }
+.explore-card .bundle-headline em { color: var(--brand-light); }
 .explore-sub {
   font-size: 14px;
   color: rgba(255,255,255,.55);
@@ -845,11 +848,11 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .payclose-copy h3 {
   font-family: var(--display);
-  font-size: 26px; font-weight: 400; line-height: 1.2;
+  font-size: 26px; font-weight: 700; letter-spacing: -.025em; line-height: 1.2;
   color: #fff;
   margin-bottom: 8px;
 }
-.payclose-copy h3 em { font-style: italic; color: rgba(255,255,255,.6); }
+.payclose-copy h3 em { font-style: normal; color: var(--brand-light); }
 .payclose-copy p { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.6; }
 .payclose-band .btn-white { position: relative; z-index: 2; flex-shrink: 0; }
 
@@ -874,7 +877,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .addon-card h3 {
   font-family: var(--display);
-  font-size: 22px; font-weight: 400;
+  font-size: 22px; font-weight: 700; letter-spacing: -.02em;
   margin-bottom: 14px;
 }
 .addon-list { list-style: none; }
@@ -923,7 +926,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .tier-card h3 {
   font-family: var(--display);
-  font-size: 24px; font-weight: 400;
+  font-size: 24px; font-weight: 700; letter-spacing: -.02em;
   margin-bottom: 8px;
 }
 .tier-card .tier-note {
@@ -1043,10 +1046,10 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate
 }
 .contact-card h3 {
   font-family: var(--display);
-  font-size: 26px; font-weight: 400; line-height: 1.2;
+  font-size: 26px; font-weight: 700; letter-spacing: -.025em; line-height: 1.2;
   margin-bottom: 10px;
 }
-.contact-card h3 em { font-style: italic; font-weight: 300; }
+.contact-card h3 em { font-style: normal; color: var(--brand); }
 .contact-desc {
   font-size: 14px; color: var(--text-2); line-height: 1.6;
   margin-bottom: 24px;

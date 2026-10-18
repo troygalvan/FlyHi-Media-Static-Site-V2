@@ -106,7 +106,8 @@
 .fit-card h3 {
   font-family: var(--display);
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 700;
+  letter-spacing: -.02em;
   margin-bottom: 20px;
 }
 .fit-list { list-style: none; }
