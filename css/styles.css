@@ -522,13 +522,11 @@ section { padding: 96px 40px; }
 .gallery-item:hover img { transform: scale(1.05); }
 
 /* ── GALLERY CAROUSEL ──
-   main.js splits a .gallery-grid[data-rows] into rows, repeats each
-   row's photos past both page edges, and sets --from/--to/--dur so the
-   row loops left forever. Without JS the plain grid above still shows. */
+   main.js turns a .gallery-grid[data-rows] into one full-bleed grid
+   track, repeats it past both page edges, and sets --from/--to/--dur so
+   it loops left forever. .big photos span 2x2. Without JS the plain
+   grid above still shows. */
 .gallery-grid.is-carousel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   /* tile = one column of the 3-up grid at the current content width */
   --tile: calc((min(100vw - 80px, 1160px) - 32px) / 3);
 }
@@ -539,33 +537,22 @@ section { padding: 96px 40px; }
   overflow: hidden;
 }
 .gallery-track {
-  display: flex;
+  display: grid;
+  grid-template-rows: repeat(var(--rows), calc(var(--tile) * 2 / 3));
+  grid-auto-columns: var(--tile);
+  grid-auto-flow: column dense;
   gap: 16px;
   width: max-content;
   transform: translateX(var(--from, 0));
   animation: gallery-drift var(--dur, 80s) linear infinite;
 }
-.gallery-row:hover .gallery-track { animation-play-state: paused; }
-.gallery-track .gallery-item { flex: 0 0 var(--tile); }
-/* mosaic: one grid for all rows so .big photos can span 2x2 */
-.gallery-track.is-mosaic {
-  display: grid;
-  grid-template-rows: repeat(var(--rows), calc(var(--tile) * 2 / 3));
-  grid-auto-columns: var(--tile);
-  grid-auto-flow: column dense;
-}
-.is-mosaic .gallery-item img { height: 100%; aspect-ratio: auto; }
+.gallery-track .gallery-item img { height: 100%; aspect-ratio: auto; }
 @keyframes gallery-drift {
   from { transform: translateX(var(--from, 0)); }
   to   { transform: translateX(var(--to, 0)); }
 }
 @media (max-width: 900px) {
   .gallery-grid.is-carousel { --tile: calc((100vw - 64px) / 2); }
-}
-@media (max-width: 560px) {
-  .gallery-grid.is-carousel { --tile: 78vw; }
-  /* six full-width rows would be several screens tall on a phone */
-  .gallery-grid.is-carousel:has(.is-mosaic) { --tile: calc((100vw - 64px) / 2); }
 }
 @media (prefers-reduced-motion: reduce) {
   .gallery-track { animation: none; }

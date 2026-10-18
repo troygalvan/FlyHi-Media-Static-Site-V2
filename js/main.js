@@ -87,55 +87,43 @@ function sectionOf(el) {
 }
 
 // ── Gallery carousels ──
-// Each .gallery-grid[data-rows] is split into that many rows. A row's
-// photos are repeated until they cover the screen plus one extra set,
-// then the track slides left by exactly one set and loops, so the seam
-// never shows. Every row moves at the same pixels-per-second, so rows
-// with more photos just take longer to loop.
+// Each .gallery-grid[data-rows] becomes one CSS grid with that many
+// rows, repeated past both page edges. The track slides left by exactly
+// one repeat and loops, so the seam never shows.
 //
-// data-layout="mosaic" keeps all rows in one CSS grid instead, so a
-// photo marked .big can span 2x2. Its data-area="row col" is the
-// top-left cell inside one repeat; the other photos fill the gaps.
-// Pick big tiles so (photos + 3 * bigs) divides evenly by the row
-// count, or the repeat will have holes.
+// A photo marked .big spans 2x2. Its data-area="row col" is the top-left
+// cell inside one repeat, and the other photos fill the gaps. For the
+// repeat to have no holes, (photos + 3 * bigs) must divide evenly by
+// the row count. When no sensible number of bigs works, add data-double:
+// the repeat then uses every photo twice, and data-area-b places big
+// tiles in the second pass.
 const DRIFT_SPEED = 18; // px per second
 
+const hideCopy = (el) => {
+  el.setAttribute('aria-hidden', 'true');
+  el.tabIndex = -1;
+};
+
 document.querySelectorAll('.gallery-grid[data-rows]').forEach((grid) => {
-  const items = [...grid.children];
   const rowCount = Number(grid.dataset.rows);
-  const mosaic = grid.dataset.layout === 'mosaic';
+  let set = [...grid.children];
 
-  grid.classList.add('is-carousel');
-  const rows = [];
-  const makeRow = (members) => {
-    const row = document.createElement('div');
-    row.className = 'gallery-row';
-    const track = document.createElement('div');
-    track.className = 'gallery-track';
-    track.append(...members);
-    row.append(track);
-    grid.append(row);
-    rows.push({ row, track, originals: members });
-    return track;
-  };
-
-  let setCols = 0;
-  if (mosaic) {
-    const track = makeRow(items);
-    track.classList.add('is-mosaic');
-    track.style.setProperty('--rows', rowCount);
-    const bigs = items.filter((item) => item.classList.contains('big')).length;
-    setCols = (items.length + 3 * bigs) / rowCount;
-  } else {
-    const base = Math.floor(items.length / rowCount);
-    const extra = items.length % rowCount; // first rows take one more
-    let i = 0;
-    for (let r = 0; r < rowCount; r++) {
-      const size = base + (r < extra ? 1 : 0);
-      makeRow(items.slice(i, i + size));
-      i += size;
-    }
+  if ('double' in grid.dataset) {
+    const secondPass = set.map((item) => {
+      const twin = item.cloneNode(true);
+      hideCopy(twin);
+      const area = item.dataset.areaB;
+      twin.classList.toggle('big', Boolean(area));
+      if (area) twin.dataset.area = area;
+      else delete twin.dataset.area;
+      delete twin.dataset.areaB;
+      return twin;
+    });
+    set = [...set, ...secondPass];
   }
+
+  const bigs = set.filter((item) => item.classList.contains('big')).length;
+  const setCols = (set.length + 3 * bigs) / rowCount;
 
   // Place a big tile in repeat number `copy` (0 = the real photos).
   const placeBig = (item, copy) => {
@@ -143,41 +131,48 @@ document.querySelectorAll('.gallery-grid[data-rows]').forEach((grid) => {
     item.style.gridRow = `${row} / span 2`;
     item.style.gridColumn = `${col + copy * setCols} / span 2`;
   };
-  if (mosaic) items.filter((item) => item.dataset.area).forEach((item) => placeBig(item, 0));
+
+  const row = document.createElement('div');
+  row.className = 'gallery-row';
+  const track = document.createElement('div');
+  track.className = 'gallery-track';
+  track.style.setProperty('--rows', rowCount);
+  set.forEach((item) => {
+    if (item.dataset.area) placeBig(item, 0);
+  });
+  track.append(...set);
+  row.append(track);
+  grid.append(row);
+  grid.classList.add('is-carousel');
 
   function layout() {
-    rows.forEach(({ row, track, originals }) => {
-      // drop old clones, keep the real photos
-      track.querySelectorAll('[data-clone]').forEach((c) => c.remove());
+    // drop old copies, keep the real photos
+    track.querySelectorAll('[data-copy]').forEach((c) => c.remove());
 
-      const style = getComputedStyle(track);
-      const gap = parseFloat(style.columnGap) || 0;
-      const setWidth = mosaic
-        ? setCols * (parseFloat(style.gridAutoColumns) + gap)
-        : originals.length * (originals[0].offsetWidth + gap);
-      const rowWidth = row.clientWidth;
-      // where the content column starts inside the full-bleed row
-      const contentLeft = grid.getBoundingClientRect().left - row.getBoundingClientRect().left;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.columnGap) || 0;
+    const setWidth = setCols * (parseFloat(style.gridAutoColumns) + gap);
+    const rowWidth = row.clientWidth;
+    // where the content column starts inside the full-bleed row
+    const contentLeft = grid.getBoundingClientRect().left - row.getBoundingClientRect().left;
 
-      // enough copies to cover the row through a full loop
-      const copies = Math.ceil(rowWidth / setWidth) + 2;
-      for (let c = 1; c < copies; c++) {
-        originals.forEach((item) => {
-          const clone = item.cloneNode(true);
-          clone.dataset.clone = '';
-          clone.setAttribute('aria-hidden', 'true');
-          clone.tabIndex = -1;
-          if (mosaic && item.dataset.area) placeBig(clone, c);
-          track.append(clone);
-        });
-      }
+    // enough copies to cover the row through a full loop
+    const copies = Math.ceil(rowWidth / setWidth) + 2;
+    for (let c = 1; c < copies; c++) {
+      set.forEach((item) => {
+        const copy = item.cloneNode(true);
+        copy.dataset.copy = '';
+        hideCopy(copy);
+        if (item.dataset.area) placeBig(copy, c);
+        track.append(copy);
+      });
+    }
 
-      // start with a real photo lined up on the content edge
-      const from = (contentLeft % setWidth) - setWidth;
-      track.style.setProperty('--from', `${from}px`);
-      track.style.setProperty('--to', `${from - setWidth}px`);
-      track.style.setProperty('--dur', `${setWidth / DRIFT_SPEED}s`);
-    });
+    // start with a real photo lined up on the content edge
+    const from = (contentLeft % setWidth) - setWidth;
+    track.style.setProperty('--from', `${from}px`);
+    track.style.setProperty('--to', `${from - setWidth}px`);
+    track.style.setProperty('--dur', `${setWidth / DRIFT_SPEED}s`);
   }
 
   layout();
