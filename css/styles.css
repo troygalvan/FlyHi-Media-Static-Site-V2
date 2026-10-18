@@ -533,9 +533,11 @@ section { padding: 96px 40px; }
 }
 .gallery-row {
   width: 100vw;
-  margin: -8px 0 -8px calc(50% - 50vw);
-  padding: 8px 0; /* room for the hover shadow, cancelled by the margin */
+  margin-left: calc(50% - 50vw);
+  /* clip only sideways so photo shadows aren't cut off top and bottom;
+     browsers without clip fall back to hidden */
   overflow: hidden;
+  overflow: clip visible;
 }
 .gallery-track {
   display: grid;
