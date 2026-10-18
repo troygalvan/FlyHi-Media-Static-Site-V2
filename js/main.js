@@ -92,37 +92,69 @@ function sectionOf(el) {
 // then the track slides left by exactly one set and loops, so the seam
 // never shows. Every row moves at the same pixels-per-second, so rows
 // with more photos just take longer to loop.
+//
+// data-layout="mosaic" keeps all rows in one CSS grid instead, so a
+// photo marked .big can span 2x2. Its data-area="row col" is the
+// top-left cell inside one repeat; the other photos fill the gaps.
+// Pick big tiles so (photos + 3 * bigs) divides evenly by the row
+// count, or the repeat will have holes.
 const DRIFT_SPEED = 18; // px per second
 
 document.querySelectorAll('.gallery-grid[data-rows]').forEach((grid) => {
   const items = [...grid.children];
   const rowCount = Number(grid.dataset.rows);
-  const base = Math.floor(items.length / rowCount);
-  const extra = items.length % rowCount; // first rows take one more
+  const mosaic = grid.dataset.layout === 'mosaic';
 
   grid.classList.add('is-carousel');
   const rows = [];
-  let i = 0;
-  for (let r = 0; r < rowCount; r++) {
-    const size = base + (r < extra ? 1 : 0);
+  const makeRow = (members) => {
     const row = document.createElement('div');
     row.className = 'gallery-row';
     const track = document.createElement('div');
     track.className = 'gallery-track';
-    track.append(...items.slice(i, i + size));
-    i += size;
+    track.append(...members);
     row.append(track);
     grid.append(row);
-    rows.push({ row, track, originals: [...track.children] });
+    rows.push({ row, track, originals: members });
+    return track;
+  };
+
+  let setCols = 0;
+  if (mosaic) {
+    const track = makeRow(items);
+    track.classList.add('is-mosaic');
+    track.style.setProperty('--rows', rowCount);
+    const bigs = items.filter((item) => item.classList.contains('big')).length;
+    setCols = (items.length + 3 * bigs) / rowCount;
+  } else {
+    const base = Math.floor(items.length / rowCount);
+    const extra = items.length % rowCount; // first rows take one more
+    let i = 0;
+    for (let r = 0; r < rowCount; r++) {
+      const size = base + (r < extra ? 1 : 0);
+      makeRow(items.slice(i, i + size));
+      i += size;
+    }
   }
+
+  // Place a big tile in repeat number `copy` (0 = the real photos).
+  const placeBig = (item, copy) => {
+    const [row, col] = item.dataset.area.split(' ').map(Number);
+    item.style.gridRow = `${row} / span 2`;
+    item.style.gridColumn = `${col + copy * setCols} / span 2`;
+  };
+  if (mosaic) items.filter((item) => item.dataset.area).forEach((item) => placeBig(item, 0));
 
   function layout() {
     rows.forEach(({ row, track, originals }) => {
       // drop old clones, keep the real photos
       track.querySelectorAll('[data-clone]').forEach((c) => c.remove());
 
-      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      const setWidth = originals.length * (originals[0].offsetWidth + gap);
+      const style = getComputedStyle(track);
+      const gap = parseFloat(style.columnGap) || 0;
+      const setWidth = mosaic
+        ? setCols * (parseFloat(style.gridAutoColumns) + gap)
+        : originals.length * (originals[0].offsetWidth + gap);
       const rowWidth = row.clientWidth;
       // where the content column starts inside the full-bleed row
       const contentLeft = grid.getBoundingClientRect().left - row.getBoundingClientRect().left;
@@ -135,6 +167,7 @@ document.querySelectorAll('.gallery-grid[data-rows]').forEach((grid) => {
           clone.dataset.clone = '';
           clone.setAttribute('aria-hidden', 'true');
           clone.tabIndex = -1;
+          if (mosaic && item.dataset.area) placeBig(clone, c);
           track.append(clone);
         });
       }
