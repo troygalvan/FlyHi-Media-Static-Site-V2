@@ -495,14 +495,13 @@ section { padding: 96px 40px; }
 /* ── PORTFOLIO GALLERY ── */
 .gallery { background: var(--bg); }
 .gallery-grid {
-  columns: 3;
-  column-gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   margin-top: 56px;
 }
 .gallery-item {
   display: block;
-  break-inside: avoid;
-  margin-bottom: 16px;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -512,6 +511,10 @@ section { padding: 96px 40px; }
 }
 .gallery-item img {
   width: 100%;
+  /* Drone shots come out 4:3 and the rest 3:2, so lock every tile to
+     3:2 and center-crop. Keeps the rows even. */
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
   display: block;
   transition: transform .5s ease;
 }
@@ -620,13 +623,13 @@ footer {
   .bundles-grid { grid-template-columns: 1fr; }
   .reliability-grid { grid-template-columns: 1fr; }
   .testimonials-grid { grid-template-columns: 1fr; }
-  .gallery-grid { columns: 2; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   nav { padding: 0 20px; }
   section { padding: 72px 24px; }
 }
 
 @media (max-width: 560px) {
-  .gallery-grid { columns: 1; }
+  .gallery-grid { grid-template-columns: 1fr; }
 }
 
 /* ── NAV: SERVICES DROPDOWN (desktop) ── */
