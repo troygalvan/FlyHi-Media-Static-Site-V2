@@ -527,6 +527,7 @@ section { padding: 96px 40px; }
    it loops left forever. .big photos span 2x2. Without JS the plain
    grid above still shows. */
 .gallery-grid.is-carousel {
+  display: block; /* the row must span the whole grid, not its first column */
   /* tile = one column of the 3-up grid at the current content width */
   --tile: calc((min(100vw - 80px, 1160px) - 32px) / 3);
 }
